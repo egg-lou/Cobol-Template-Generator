@@ -61,6 +61,7 @@ The application will then prompt you to enter the following information:
 - Outfile variable name
 - Input file name
 - Output file name
+- Is there already an existing input file
 
 After you've entered all the information, the application will create a `.cob` file with the provided filename and a `.txt` file with the input file name.
 
