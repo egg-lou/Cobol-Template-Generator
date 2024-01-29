@@ -65,6 +65,9 @@ The application will then prompt you to enter the following information:
 
 After you've entered all the information, the application will create a `.cob` file with the provided filename and a `.txt` file with the input file name.
 
+### Sample Usage
+![Alt text](image.png)
+
 ## Contribution
 
 Contributions are always welcome! If you have any ideas, just open an issue and tell us what you think.
