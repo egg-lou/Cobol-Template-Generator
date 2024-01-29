@@ -5,7 +5,7 @@ use clap::{App, Arg};
 
 fn main() {
     let matches = App::new("COBOL File Creator")
-    .version("1.0")
+    .version("1.0.1")
     .author("Egglou")
     .about("Creates a COBOL file")
     .arg(
@@ -75,10 +75,28 @@ fn create_cob_file(file_name: &str) -> io::Result<()> {
     io::stdout().flush().unwrap();
     let output_file = read_line().to_uppercase();
     
-    match create_txt_file(&input_file) {
-        Ok(_) => println!("Created {}.txt", input_file),
-        Err(e) => eprintln!("failed to create {}.txt: {}", input_file, e)
-    };
+    let mut input_file_exists = String::new();
+    loop {
+        print!("Does the input file exist? (y/n): ");
+        io::stdout().flush().unwrap(); // Flush stdout to ensure the prompt is displayed
+        io::stdin().read_line(&mut input_file_exists).expect("Failed to read line");
+        let input_file_exists_trimmed = input_file_exists.trim();
+
+        if input_file_exists_trimmed == "y" {
+            println!("Using existing input file: {}.txt", input_file);
+            break;
+        } else if input_file_exists_trimmed == "n" {
+            println!("Creating input file: {}.txt", input_file);
+            match create_txt_file(&input_file) {
+                Ok(_) => println!("Created {}.txt", input_file),
+                Err(e) => eprintln!("failed to create {}.txt: {}", input_file, e)
+            };
+            break;
+        } else {
+            println!("Invalid input, please enter 'y' or 'n'");
+            input_file_exists.clear();
+        }
+    }
 
     write!(
         file,
@@ -93,8 +111,8 @@ fn create_cob_file(file_name: &str) -> io::Result<()> {
 
        ENVIRONMENT DIVISION.
        CONFIGURATION SECTION.
-       SOURCE-COMPUTER. ASUSTEK-PC.
-       OBJECT-COMPUTER. ASUSTEK-PC.
+       SOURCE-COMPUTER. PERSONAL-COMPUTER.
+       OBJECT-COMPUTER. PERSONAL-COMPUTER.
        INPUT-OUTPUT SECTION.
        FILE-CONTROL.
            SELECT {} ASSIGN TO '{}.txt'.
